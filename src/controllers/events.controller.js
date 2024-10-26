@@ -1,4 +1,4 @@
-const { selectEvents, selectEventById, insertEvent, updateEventById } = require("../models/events.model")
+const { selectEvents, selectEventById, insertEvent, updateEventById, deleteEventById } = require("../models/events.model")
 
 const getEvents = async (req, res, next) => {
     try {
@@ -41,13 +41,13 @@ const postEvent = async (req, res, next) => {
 const putEvent = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const result = await updateEventById(id, req.body);
+        const affectedRows = await updateEventById(id, req.body);
         // Error si la fecha es incorrecta
-        if (result === -2) {
+        if (affectedRows === -2) {
             return res.status(400).json({ error: 'Invalid date format or values. Expected format is YYYY-MM-DD.' });
         }
         // Error si la modificación ha fallado
-        if (result !== 1) {
+        if (affectedRows !== 1) {
             return res.status(400).json({ error: 'Invalid request: The data provided is incorrect or incomplete.' });
         }
         // Obtenemos el evento autualizado para añadirlo a la respuesta
@@ -58,6 +58,20 @@ const putEvent = async (req, res, next) => {
     }
 }
 
+const deleteEvent = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const deletedEvent = await selectEventById(id);
+        const affectedRows = await deleteEventById(id);
+        if (affectedRows !== 1) {
+            return res.status(404).json({ error: 'Invalid request: The specified Event ID does not exist' });
+        }
+        res.status(200).json(deletedEvent);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
-    getEvents, getEventById, postEvent, putEvent
+    getEvents, getEventById, postEvent, putEvent, deleteEvent
 }

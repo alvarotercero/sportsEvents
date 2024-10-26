@@ -30,3 +30,6 @@ Content-Type: application/json
     "tipoDeporte": "Tenis",
     "organizador": "Federación Deportiva de Tenis"
 }
+
+###
+DELETE {{host}}/api/events/29

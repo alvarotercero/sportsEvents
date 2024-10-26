@@ -43,6 +43,14 @@ const updateEventById = async (id, { nombre, descripcion, fecha, ubicacion, tipo
     return result.affectedRows;
 }
 
+const deleteEventById = async (id) => {
+    const [result] = await pool.query(
+        'delete from events where id = ?', 
+        [id]
+    );
+    return result.affectedRows;
+}
+
 module.exports = {
-    selectEvents, selectEventById, insertEvent, updateEventById
+    selectEvents, selectEventById, insertEvent, updateEventById, deleteEventById
 }
