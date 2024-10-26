@@ -17,3 +17,16 @@ Content-Type: application/json
     "tipoDeporte": "Petanca",
     "organizador": "Federación Española de Petanca"
 }
+
+###
+PUT {{host}}/api/events/21
+Content-Type: application/json
+
+{
+    "nombre": "Torneo de Tenis",
+    "descripcion": "Final de Profesores vs Alumnos",
+    "fecha": "2025-01-14",
+    "ubicacion": "Mérida",
+    "tipoDeporte": "Tenis",
+    "organizador": "Federación Deportiva de Tenis"
+}

@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const { dateValidation } = require('../utils/helpers');
 
 const selectEvents = async () => {
     const [result] = await pool.query('select * from events');
@@ -14,10 +15,8 @@ const selectEventById = async (id) => {
 }
 
 const insertEvent = async ({ nombre, descripcion, fecha, ubicacion, tipoDeporte, organizador }) => {
-    
     // Validar formato de fecha YYYY-MM-DD
-    const date = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-    if (!date.test(fecha)) {
+    if (dateValidation(fecha) === -2) {
         return -2;
     }
 
@@ -25,12 +24,25 @@ const insertEvent = async ({ nombre, descripcion, fecha, ubicacion, tipoDeporte,
         'insert into events (nombre, descripcion, fecha, ubicacion, tipoDeporte, organizador) values (?, ?, ?, ?, ?, ?)',
         [nombre, descripcion, fecha, ubicacion, tipoDeporte, organizador]
     );
-    if (result.affectedRows !== 1) {
+    if (result.affectedRows != 1) {
         return -1;
     }
     return result.insertId;
 }
 
+const updateEventById = async (id, { nombre, descripcion, fecha, ubicacion, tipoDeporte, organizador }) => {
+    // Validar formato de fecha YYYY-MM-DD
+    if (dateValidation(fecha) === -2) {
+        return -2;
+    }
+
+    const [result] = await pool.query(
+        'update events set nombre = ?, descripcion = ?, fecha = ?, ubicacion = ?, tipoDeporte = ?, organizador = ? where id = ?', 
+        [nombre, descripcion, fecha, ubicacion, tipoDeporte, organizador, id]
+    );
+    return result.affectedRows;
+}
+
 module.exports = {
-    selectEvents, selectEventById, insertEvent
+    selectEvents, selectEventById, insertEvent, updateEventById
 }
