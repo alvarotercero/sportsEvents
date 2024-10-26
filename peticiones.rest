@@ -6,6 +6,9 @@ GET {{host}}/api/events
 GET {{host}}/api/events/4
 
 ###
+GET {{host}}/api/events/upcoming
+
+###
 POST {{host}}/api/events
 Content-Type: application/json
 

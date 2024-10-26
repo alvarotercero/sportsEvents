@@ -1,4 +1,4 @@
-const { selectEvents, selectEventById, insertEvent, updateEventById, deleteEventById } = require("../models/events.model")
+const { selectEvents, selectEventById, selectEventsUpcoming, insertEvent, updateEventById, deleteEventById } = require("../models/events.model")
 
 const getEvents = async (req, res, next) => {
     try {
@@ -14,6 +14,15 @@ const getEventById = async (req, res, next) => {
         const { id } = req.params;
         const event = await selectEventById(id);
         res.json(event);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getEventsUpcoming = async (req, res, next) => {
+    try {
+        const result = await selectEventsUpcoming();
+        res.json(result);
     } catch (error) {
         next(error);
     }
@@ -73,5 +82,5 @@ const deleteEvent = async (req, res, next) => {
 }
 
 module.exports = {
-    getEvents, getEventById, postEvent, putEvent, deleteEvent
+    getEvents, getEventById, getEventsUpcoming, postEvent, putEvent, deleteEvent
 }

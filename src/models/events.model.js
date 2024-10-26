@@ -14,6 +14,15 @@ const selectEventById = async (id) => {
     return result[0];
 }
 
+const selectEventsUpcoming = async () => {
+    // Obtenemos todos los eventos posteriores a la fecha actual
+    // y limitamos la respuesta a los 10 primeros
+    const [result] = await pool.query(
+        'select * from events where fecha >= current_date() order by fecha asc limit 10'
+    );
+    return result;
+}
+
 const insertEvent = async ({ nombre, descripcion, fecha, ubicacion, tipoDeporte, organizador }) => {
     // Validar formato de fecha YYYY-MM-DD
     if (dateValidation(fecha) === -2) {
@@ -52,5 +61,5 @@ const deleteEventById = async (id) => {
 }
 
 module.exports = {
-    selectEvents, selectEventById, insertEvent, updateEventById, deleteEventById
+    selectEvents, selectEventById, selectEventsUpcoming, insertEvent, updateEventById, deleteEventById
 }
