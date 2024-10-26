@@ -1,0 +1,19 @@
+@host = http://localhost:3000
+
+GET {{host}}/api/events
+
+###
+GET {{host}}/api/events/4
+
+###
+POST {{host}}/api/events
+Content-Type: application/json
+
+{
+    "nombre": "Torneo de Petanca",
+    "descripcion": "Gran torneo de Jubilados vs Prejubilados",
+    "fecha": "2024-12-23",
+    "ubicacion": "Alicante",
+    "tipoDeporte": "Petanca",
+    "organizador": "Federación Española de Petanca"
+}
