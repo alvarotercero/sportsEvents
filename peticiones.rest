@@ -12,6 +12,9 @@ GET {{host}}/api/events/upcoming
 GET {{host}}/api/events?type=futbol
 
 ###
+GET {{host}}/api/events/date?from=2024-12-25&to=2025-01-10
+
+###
 POST {{host}}/api/events
 Content-Type: application/json
 

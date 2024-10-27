@@ -1,4 +1,5 @@
-const { selectEvents, selectEventById, selectEventsUpcoming, selectEventsByType, insertEvent, updateEventById, deleteEventById } = require("../models/events.model")
+const { formatDateToLocalTime } = require('../utils/helpers');
+const { selectEvents, selectEventById, selectEventsUpcoming, selectEventsByType, selectEventsByDate, insertEvent, updateEventById, deleteEventById } = require("../models/events.model");
 
 const getEvents = async (req, res, next) => {
     try {
@@ -6,11 +7,15 @@ const getEvents = async (req, res, next) => {
         const { type } = req.query;
         if (!type) {
             const result = await selectEvents();
-            return res.json(result);
+            // Ajustamos las fechas a hora local
+            const adjustedResults = formatDateToLocalTime(result);
+            return res.json(adjustedResults);
         }
         // Si la petición contiene type, ejecutamos selectEventsByType()
         const result = await selectEventsByType(type);
-        res.json(result);
+        // Ajustamos las fechas a hora local
+        const adjustedResults = formatDateToLocalTime(result);
+        res.json(adjustedResults);
     } catch (error) {
         next(error);
     }
@@ -19,8 +24,10 @@ const getEvents = async (req, res, next) => {
 const getEventById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const event = await selectEventById(id);
-        res.json(event);
+        const result = await selectEventById(id);
+        // Ajustamos las fechas a hora local
+        const adjustedResults = formatDateToLocalTime(result);
+        res.json(adjustedResults[0]);
     } catch (error) {
         next(error);
     }
@@ -29,7 +36,21 @@ const getEventById = async (req, res, next) => {
 const getEventsUpcoming = async (req, res, next) => {
     try {
         const result = await selectEventsUpcoming();
-        res.json(result);
+        // Ajustamos las fechas a hora local
+        const adjustedResults = formatDateToLocalTime(result);
+        res.json(adjustedResults);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getEventsByDate = async (req, res, next) => {
+    try {
+        const { from, to } = req.query;
+        const result = await selectEventsByDate(from, to);
+        // Ajustamos las fechas a hora local
+        const adjustedResults = formatDateToLocalTime(result);
+        res.json(adjustedResults);
     } catch (error) {
         next(error);
     }
@@ -89,5 +110,5 @@ const deleteEvent = async (req, res, next) => {
 }
 
 module.exports = {
-    getEvents, getEventById, getEventsUpcoming, postEvent, putEvent, deleteEvent
+    getEvents, getEventById, getEventsUpcoming, getEventsByDate, postEvent, putEvent, deleteEvent
 }

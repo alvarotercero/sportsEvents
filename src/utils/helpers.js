@@ -1,3 +1,10 @@
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 /**
  * Validates a date string to ensure it matches the pattern "YYYY-MM-DD".
  * Only allows years between 1900 and 2099, months between 01 and 12, 
@@ -23,6 +30,17 @@ const dateValidation = (date) => {
     return 1;
 }
 
+const formatDateToLocalTime = (result) => {
+    // Obtenemos la zona horaria local
+    const localTimeZone = dayjs.tz.guess();
+    // Devolvemos la hora en zona horaria local
+    const adjustedResults = result.map(event => ({
+        ...event,
+        fecha: dayjs.utc(event.fecha).tz(localTimeZone).format('YYYY-MM-DD')
+    }));
+    return adjustedResults;
+}
+
 module.exports = {
-    dateValidation
+    dateValidation, formatDateToLocalTime
 }

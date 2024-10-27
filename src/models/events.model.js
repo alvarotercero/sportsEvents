@@ -11,7 +11,7 @@ const selectEventById = async (id) => {
         'select * from events where id = ?', 
         [id]
     );
-    return result[0];
+    return result;
 }
 
 const selectEventsUpcoming = async () => {
@@ -27,6 +27,14 @@ const selectEventsByType = async (type) => {
     const [result] = await pool.query(
         'select * from events where tipoDeporte = ?',
         [type]
+    );
+    return result;
+}
+
+const selectEventsByDate = async (firstDate, lastDate) => {
+    const [result] = await pool.query(
+        'select * from events where fecha between ? and ? order by fecha asc', 
+        [firstDate, lastDate]
     );
     return result;
 }
@@ -69,5 +77,5 @@ const deleteEventById = async (id) => {
 }
 
 module.exports = {
-    selectEvents, selectEventById, selectEventsUpcoming, selectEventsByType, insertEvent, updateEventById, deleteEventById
+    selectEvents, selectEventById, selectEventsUpcoming, selectEventsByType, selectEventsByDate, insertEvent, updateEventById, deleteEventById
 }
