@@ -41,4 +41,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{host}}/api/events/29
+DELETE {{host}}/api/events/21

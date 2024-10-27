@@ -25,7 +25,7 @@ dayjs.extend(timezone);
 const dateValidation = (date) => {
     const dateRegex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
     if (!dateRegex.test(date)) {
-        return -2;
+        return -1;
     }
     return 1;
 }
