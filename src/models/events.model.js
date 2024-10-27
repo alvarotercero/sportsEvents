@@ -23,6 +23,14 @@ const selectEventsUpcoming = async () => {
     return result;
 }
 
+const selectEventsByType = async (type) => {
+    const [result] = await pool.query(
+        'select * from events where tipoDeporte = ?',
+        [type]
+    );
+    return result;
+}
+
 const insertEvent = async ({ nombre, descripcion, fecha, ubicacion, tipoDeporte, organizador }) => {
     // Validar formato de fecha YYYY-MM-DD
     if (dateValidation(fecha) === -2) {
@@ -61,5 +69,5 @@ const deleteEventById = async (id) => {
 }
 
 module.exports = {
-    selectEvents, selectEventById, selectEventsUpcoming, insertEvent, updateEventById, deleteEventById
+    selectEvents, selectEventById, selectEventsUpcoming, selectEventsByType, insertEvent, updateEventById, deleteEventById
 }

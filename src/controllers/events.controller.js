@@ -1,8 +1,15 @@
-const { selectEvents, selectEventById, selectEventsUpcoming, insertEvent, updateEventById, deleteEventById } = require("../models/events.model")
+const { selectEvents, selectEventById, selectEventsUpcoming, selectEventsByType, insertEvent, updateEventById, deleteEventById } = require("../models/events.model")
 
 const getEvents = async (req, res, next) => {
     try {
-        const result = await selectEvents();
+        // Comprobamos si la petición contiene type
+        const { type } = req.query;
+        if (!type) {
+            const result = await selectEvents();
+            return res.json(result);
+        }
+        // Si la petición contiene type, ejecutamos selectEventsByType()
+        const result = await selectEventsByType(type);
         res.json(result);
     } catch (error) {
         next(error);
