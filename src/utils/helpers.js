@@ -1,6 +1,7 @@
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
+const jwt = require('jsonwebtoken');
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -41,6 +42,14 @@ const formatDateToLocalTime = (result) => {
     return adjustedResults;
 }
 
+const createToken = (user) => {
+    const data = {
+        id: user.id,
+        username: user.username
+    }
+    return jwt.sign(data, 'WelcomeToTheBestSportsEventsAPI');
+}
+
 module.exports = {
-    dateValidation, formatDateToLocalTime
+    dateValidation, formatDateToLocalTime, createToken
 }

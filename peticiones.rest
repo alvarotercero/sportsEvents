@@ -42,3 +42,21 @@ Content-Type: application/json
 
 ###
 DELETE {{host}}/api/events/21
+
+########################################
+POST {{host}}/api/users/register
+Content-Type: application/json
+
+{
+    "username": "example5",
+    "password": "examplePassword"
+}
+
+###
+POST {{host}}/api/users/login
+Content-Type: application/json
+
+{
+    "username": "example5",
+    "password": "examplePassword"
+}

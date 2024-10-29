@@ -19,7 +19,7 @@ drop table if exists `users`;
 create table `users` (
 	`id` int not null auto_increment, 
 	`username` varchar(20),
-    `password` varchar(20), 
+    `password` varchar(70), 
     primary key (`id`)
 );
 
