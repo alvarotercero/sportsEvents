@@ -2,7 +2,6 @@
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJleGFtcGxlNSIsImlhdCI6MTczMDMyNjk5M30.EXwSIC5kcbH9H3x8A-D4-winryN0zWkkifSVwgvaUlA
 
 GET {{host}}/api/events
-Authorization: {{token}}
 
 ###
 GET {{host}}/api/events/4
@@ -19,6 +18,7 @@ GET {{host}}/api/events/date?from=2024-12-25&to=2025-01-10
 ###
 POST {{host}}/api/events
 Content-Type: application/json
+Authorization: {{token}}
 
 {
     "nombre": "Torneo de Petanca",
@@ -32,6 +32,7 @@ Content-Type: application/json
 ###
 PUT {{host}}/api/events/21
 Content-Type: application/json
+Authorization: {{token}}
 
 {
     "nombre": "Torneo de Tenis",
@@ -44,6 +45,7 @@ Content-Type: application/json
 
 ###
 DELETE {{host}}/api/events/21
+Authorization: {{token}}
 
 ########################################
 POST {{host}}/api/users/register
@@ -59,7 +61,7 @@ POST {{host}}/api/users/login
 Content-Type: application/json
 
 {
-    "username": "example5",
+    "username": "example4",
     "password": "examplePassword"
 }
 

@@ -20,8 +20,17 @@ exports.checkToken = async (req, res, next) => {
     if (!user) {
         return res.status(403).json({ message: 'User not found' });
     }
-    
+
     // Le añadimos el usuario a la petición
     req.user = user;
+    next();
+}
+
+exports.checkUserAllowed = (req, res, next) => {
+    const { id } = req.user;
+    // Solo autorizamos a los ids 1, 2 y 5
+    if (id !== 1 && id !== 2 && id !== 5) {
+        return res.status(401).json({ message: 'Unauthorized user' });
+    }
     next();
 }
