@@ -3,6 +3,15 @@ const bcrypt = require('bcrypt');
 const { selectUserById, insertUser, selectUserByUsername } = require("../models/users.model");
 const { createToken } = require('../utils/helpers');
 
+const getUserProfile = async (req, res, next) => {
+    try {
+        const user = req.user;
+        res.json(user);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const createUser = async (req, res, next) => {
     try {
         // Encriptamos la contraseña antes de enviarla
@@ -39,5 +48,5 @@ const loginUser = async (req, res, next) => {
 }
 
 module.exports = {
-    createUser, loginUser
+    getUserProfile, createUser, loginUser
 }

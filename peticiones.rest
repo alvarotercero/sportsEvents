@@ -1,6 +1,8 @@
 @host = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJleGFtcGxlNSIsImlhdCI6MTczMDMyNjk5M30.EXwSIC5kcbH9H3x8A-D4-winryN0zWkkifSVwgvaUlA
 
 GET {{host}}/api/events
+Authorization: {{token}}
 
 ###
 GET {{host}}/api/events/4
@@ -60,3 +62,7 @@ Content-Type: application/json
     "username": "example5",
     "password": "examplePassword"
 }
+
+###
+GET {{host}}/api/users/profile
+Authorization: {{token}}
