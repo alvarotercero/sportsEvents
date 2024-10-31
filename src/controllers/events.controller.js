@@ -9,12 +9,20 @@ const getEvents = async (req, res, next) => {
             const result = await selectEvents();
             // Ajustamos las fechas a hora local
             const adjustedResults = formatDateToLocalTime(result);
+            // Si no hay resultados en la BD, respuesta 404
+            if (adjustedResults.length === 0) {
+                return res.status(404).json({ message: 'No events found in database' });
+            }
             return res.json(adjustedResults);
         }
         // Si la petición contiene type, ejecutamos selectEventsByType()
         const result = await selectEventsByType(type);
         // Ajustamos las fechas a hora local
         const adjustedResults = formatDateToLocalTime(result);
+        // Si no hay resultados en la BD, respuesta 404
+        if (adjustedResults.length === 0) {
+            return res.status(404).json({ message: 'No events found in database' });
+        }
         res.json(adjustedResults);
     } catch (error) {
         next(error);
@@ -27,6 +35,9 @@ const getEventById = async (req, res, next) => {
         const result = await selectEventById(id);
         // Ajustamos las fechas a hora local
         const adjustedResults = formatDateToLocalTime(result);
+        if (adjustedResults.length === 0) {
+            return res.status(404).json({ message: 'Event not found in database' });
+        }
         res.json(adjustedResults[0]);
     } catch (error) {
         next(error);
@@ -38,6 +49,9 @@ const getEventsUpcoming = async (req, res, next) => {
         const result = await selectEventsUpcoming();
         // Ajustamos las fechas a hora local
         const adjustedResults = formatDateToLocalTime(result);
+        if (adjustedResults.length === 0) {
+            return res.status(404).json({ message: 'No events found in database' });
+        }
         res.json(adjustedResults);
     } catch (error) {
         next(error);
@@ -50,6 +64,9 @@ const getEventsByDate = async (req, res, next) => {
         const result = await selectEventsByDate(from, to);
         // Ajustamos las fechas a hora local
         const adjustedResults = formatDateToLocalTime(result);
+        if (adjustedResults.length === 0) {
+            return res.status(404).json({ message: 'No events found in database' });
+        }
         res.json(adjustedResults);
     } catch (error) {
         next(error);
